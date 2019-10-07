@@ -16,15 +16,16 @@ namespace WcfService
             try
             {
                 //Service host
-                _selfHost = new ServiceHost(typeof(TestService), BaseAddress);
+                _selfHost = new ServiceHost(typeof(TestService));
 
                 // Add a service endpoint.
-                //_selfHost.AddServiceEndpoint(typeof(ITestService), new WSHttpBinding(), "StatusService");
+                _selfHost.AddServiceEndpoint(typeof(ITestService), new WSHttpBinding(), BaseAddress);
+                _selfHost.AddServiceEndpoint(typeof(ICarService), new WSHttpBinding(), BaseAddress);
 
                 // Enable metadata exchange.
                 var smb = new ServiceMetadataBehavior
                 {
-                    HttpGetEnabled = true, MetadataExporter = {PolicyVersion = PolicyVersion.Policy15}
+                    HttpGetEnabled = true
                 };
                 _selfHost.Description.Behaviors.Add(smb);
 
